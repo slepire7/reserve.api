@@ -18,13 +18,12 @@ namespace api_covid.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        [Route("DadosIniciais")]
+        [HttpGet("DadosIniciais")]
         public IActionResult DadosIniciais()
         {
-            var response = Service.HttpService<Model.Sumary>.Request("summary");
-            var result = response.Countries.OrderByDescending(o=> o.TotalConfirmed).Take(10);
-            return !result.Any() ? BadRequest() : Ok(result);
+            var response = Service.HttpService.Request<Model.Sumary>("summary");
+            var result = response.Countries.OrderByDescending(o => o.TotalConfirmed).Take(10);
+            return Ok(result);
         }
 
     }

@@ -4,11 +4,11 @@ using System.Text.Json;
 
 namespace api_covid.Service
 {
-    public static class HttpService<T>
+    public static class HttpService
     {
-        private static string _urlbase=> "https://api.covid19api.com/";
-        
-        public static T Request(string service)
+        private static string _urlbase => "https://api.covid19api.com/";
+
+        public static T Request<T>(string service)
         {
             var client = new RestClient($"{_urlbase}{service}");
             var request = new RestRequest(Method.GET);

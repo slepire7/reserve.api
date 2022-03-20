@@ -27,10 +27,17 @@ namespace api_covid
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();            
+            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "api_covid", Version = "v1" });
+            });
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200");
+                });
             });
         }
 
@@ -44,12 +51,11 @@ namespace api_covid
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "api_covid v1"));
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors("CorsPolicy");
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
